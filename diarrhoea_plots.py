@@ -1,3 +1,4 @@
+from operator import concat
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,7 +20,7 @@ central_highlands = vietnam.loc[vietnam["province"].isin(['Kon Tum', 'Gia Lai', 
 south = vietnam.loc[vietnam["province"].isin(['Cà Mau', 'Bạc Liêu', 'Kiên Giang', 'Sóc Trăng', 'Cần Thơ', 'An Giang', 'Trà Vinh', 'Đồng Tháp', 'Tiền Giang', 'Long An', 'BR Vũng Tàu', 'Tây Ninh', 'Bình Phước'])] #no Hau Giang, Vinh Long, Ben Tre, Ho Chi Minh, Dong Nai
 # Double check those
 
-# Alternatively, add subregion column
+# Alternatively, add subregion column to full dataset
 def label_region (row):
     if row['province'] in ['Lai Châu', 'Sơn La', 'Điện Biên']:
         return "north_west"
@@ -36,16 +37,33 @@ def label_region (row):
     if row['province'] in ['Cà Mau', 'Bạc Liêu', 'Kiên Giang', 'Sóc Trăng', 'Cần Thơ', 'An Giang', 'Trà Vinh', 'Đồng Tháp', 'Tiền Giang', 'Long An', 'BR Vũng Tàu', 'Tây Ninh', 'Bình Phước']:
         return "south"
 
-vietnam.apply(label_region, axis = 1) # check results
 vietnam["region"] = vietnam.apply(label_region, axis = 1)
 
-# Seaborn plots for diarrhoea
-sns.relplot(x = "Average_temperature", y = "Diarrhoea_rates", data = vietnam)
+# Test seaborn plots for diarrhoea
+sns.relplot(x = "year_month", y = "Diarrhoea_rates", data = south.loc[south["year_month"] > "2015-01-01"]) # not sure if this has any potential...
 plt.show()
 
 sns.relplot(x = "Total_Rainfall", y = "Diarrhoea_rates", data = central_highlands)
 plt.show()
 
+# Overview of data
+g = sns.catplot(x = "region", y = "Diarrhoea_rates", data = vietnam, kind = "box")
+g.set(xlabel = "Region", ylabel = "Diarrhoea Rates (Log Scale)", title = "Diarrhoea Rates in Vietnam by Region", yscale = "log")
+plt.show()
+
+g = sns.catplot(x = "province", y = "Diarrhoea_rates", data = vietnam.dropna(subset = ["Diarrhoea_rates"]), kind = "box")
+g.set(xlabel = "Province", ylabel = "Diarrhoea Rates per 100k Population", title = "Diarrhoea Rates in Vietnam by Province", ylim = (-100, 10000))
+plt.xticks(rotation=90)
+plt.show()
+
+g = sns.catplot(x = "province", y = "Diarrhoea_rates", data = vietnam.dropna(subset = ["Diarrhoea_rates"]), kind = "box")
+g.set(xlabel = "Province", ylabel = "Diarrhoea Rates per 100k Population (Log Scale)", title = "Diarrhoea Rates in Vietnam by Province", yscale = "log")
+plt.xticks(rotation=90)
+plt.show()
+
+g = sns.catplot(x = "region", y = "Diarrhoea_rates", data = vietnam, kind = "box")
+g.set(xlabel = "Region", ylabel = "Diarrhoea Rates", title = "Diarrhoea Rates in Vietnam by Region")
+plt.show()
 
 # Lag function
 def add_lags(df, colname, lag):
@@ -57,35 +75,62 @@ def add_lags(df, colname, lag):
     df_lag = df_lag.sort_values(["province", "year_month"]) # order by province and date to make sure shift is correct
     for i in range(1, lag + 1):
         df_lag['Lag_' + str(i) + '_' + colname] = df_lag[colname].shift(-i)
-        df_lag = df_lag.groupby("province", group_keys = False).apply(lambda group: group.iloc[1:, :]) # drop values shifted into incorrect provinces
+        df_lag = df_lag.groupby("province", group_keys = False).apply(lambda group: group.iloc[:-1, :]) # drop values shifted into incorrect provinces
     return df_lag
 
-# def concat_lags(df, colname, lag, dropna = False):
-#     res = df.copy()
-#     df_lag = df.copy()
-#     for i range(1, lag + 1):
-#         df_lag.rename({colname: 'Lag_' + str(i) + '_' + colname})
-#         df['Lag_' + str(i) + '_' + colname].shift(i)
-#         res = res.concat #will reset keys, need to fix later
+def concat_lags(df, colname, lag):
+    df_lag = df.copy()
+    df_lag = df_lag.sort_values(["province", "year_month"]) # order by province and date to make sure shift is correct
+    df_lag["Lag"] = 0
+    df_list = [df_lag]
+    for i in range(1, lag + 1):
+        df_lag[colname] = df_lag[colname].shift(-1)
+        df_lag = df_lag.groupby("province", group_keys = False).apply(lambda group: group.iloc[:-1, :])
+        df_lag["Lag"] = i
+        df_list.append(df_lag)
+    return pd.concat(df_list)
 
 diarrhoea_lags = add_lags(vietnam, 'Diarrhoea_rates', 6)
 diarrhoea_lags
+
+concat_diarrhoea_lags = concat_lags(vietnam, "Diarrhoea_rates", 6)
+concat_diarrhoea_lags.loc[concat_diarrhoea_lags['Lag'] == 6]
+
 
 # Full heatmap of lag correlations in Vietnam
 from matplotlib import rcParams
 rcParams.update({'figure.autolayout': True})
 
 corr_matrix = diarrhoea_lags.corr(method = "spearman")
-sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
+g = sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
+g.set(title = "Spearman Correlations in Vietnam")
 plt.show()
 
-# Correlation between min temp and lagged cases, showing different provinces
+# Full heatmap for central highlands
+highlands_lags = add_lags(central_highlands, "Diarrhoea_rates", 6)
+corr_matrix = highlands_lags.corr(method = "spearman")
+g = sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
+g.set(title = "Spearman Correlations in Central Highlands")
+plt.show()
+
+thai_binh_lags = add_lags(vietnam[vietnam['province'] == 'Thái Bình'], "Diarrhoea_rates", 6)
+corr_matrix = thai_binh_lags.corr(method = "spearman")
+g = sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
+g.set(title = "Spearman Correlations in Thai Binh")
+plt.tight_layout()
+plt.show()
+
+
+
+# KDE plots between min temp and lagged cases, showing different provinces
 g = sns.FacetGrid(diarrhoea_lags, col = "region", col_wrap = 4)
 g.map(sns.kdeplot, "Min_Absolute_Temperature", "Diarrhoea_rates", fill = True, cmap = "crest")
 plt.show()
 
 g = sns.FacetGrid(diarrhoea_lags, col = "region", col_wrap = 4)
-g.map(sns.kdeplot, "Min_Absolute_Temperature", "Lag_1_Diarrhoea_rates", fill = True, cmap = "crest")
+g.map(sns.kdeplot, "Max_Absolute_Temperature", "Lag_1_Diarrhoea_rates", fill = True, cmap = "crest")
+g.set(xlabel = "Max Absolute Temperature (°C)", ylabel = "Diarrhoea Rates (1 Mo. Lag)")
+plt.suptitle("Correlations between Temperature and Diarrhoea in Vietnam")
 plt.show()
 
 g = sns.FacetGrid(diarrhoea_lags, col = "region", col_wrap = 4)
@@ -96,55 +141,68 @@ g = sns.FacetGrid(diarrhoea_lags, col = "region", col_wrap = 4)
 g.map(sns.kdeplot, "Min_Absolute_Temperature", "Lag_3_Diarrhoea_rates", fill = True, cmap = "crest")
 plt.show()
 
-# Correlation between min temp and lagged cases, showing different lags for 1 province (coming soon?)
+# KDE plots between min temp and lagged cases, showing different lags for 1 subregion
+highlands_concat_diarrhoea = concat_lags(central_highlands, "Diarrhoea_rates", 5)
 
-
-# Mess
-cols = [19, 21, 22, 23, 24, 25]
-lag1 = diarrhoea_lags.drop(diarrhoea_lags.columns[cols], axis = 1)
-
-cols2 = [19, 20, 22, 23, 24, 25]
-lag2 = diarrhoea_lags.drop(diarrhoea_lags.columns[cols2], axis = 1)
-
-cols3 = [19, 20, 21, 23, 24, 25]
-lag3 = diarrhoea_lags.drop(diarrhoea_lags.columns[cols3], axis = 1)
-
-cols4 = [19, 20, 21, 22, 24, 25]
-lag4 = diarrhoea_lags.drop(diarrhoea_lags.columns[cols4], axis = 1)
-
-cols5 = [19, 20, 21, 22, 23, 25]
-lag5 = diarrhoea_lags.drop(diarrhoea_lags.columns[cols5], axis = 1)
-
-cols6 = [19, 20, 21, 22, 23, 24]
-lag6 = diarrhoea_lags.drop(diarrhoea_lags.columns[cols6], axis = 1)
-
-for i in [lag1, lag2, lag3, lag4, lag5, lag6]:
-    i.rename(columns = {i.columns[19]: "Diarrhoea_rates"}, inplace = True)
-
-lag_list = [vietnam, lag1, lag2, lag3, lag4, lag5, lag6]
-diarrhoea_concat = pd.concat(lag_list, keys = ['lag0','lag1','lag2','lag3','lag4','lag5','lag6'])
-diarrhoea_concat['lag'] = diarrhoea_concat.index.get_level_values(0)
-
-
-sns.displot(north_central, x = "Average_temperature", y = "Diarrhoea_rates", kind = "kde", fill = True)
-plt.show()
-sns.displot(lag1, x = "Average_temperature", y = "Diarrhoea_rates", kind = "kde", fill = True)
+g = sns.FacetGrid(highlands_concat_diarrhoea, col = "Lag", col_wrap = 3)
+g.map(sns.kdeplot, "Min_Absolute_Temperature", "Diarrhoea_rates", fill = True, cmap = "crest")
 plt.show()
 
-
-# sns.displot(diarrhoea_concat, x = "Average_temperature", y = "Diarrhoea_rates", kind = "kde", hue = "lag", fill = True)
-sns.displot(diarrhoea_concat, x = "lag", y = "Average_temperature", kind = "kde", fill = True)
+g = sns.FacetGrid(highlands_concat_diarrhoea, col = "Lag", col_wrap = 3)
+g.map(sns.kdeplot, "Total_Rainfall", "Diarrhoea_rates", fill = True, cmap = "crest")
 plt.show()
 
-sns.displot(diarrhoea_concat, x = 'Diarrhoea_rates', binwidth = 200)
+g = sns.FacetGrid(highlands_concat_diarrhoea, col = "Lag", col_wrap = 3)
+g.map(sns.kdeplot, "n_hours_sunshine", "Diarrhoea_rates", fill = True, cmap = "crest")
 plt.show()
 
-bins = [0, 1, 5, 10, 25, 50, 100]
-labels = [1,2,3,4,5,6]
-df['binned'] = pd.cut(df['percentage'], bins=bins, labels=labels)
-print (df)
-
-sns.displot(diarrhoea_concat, x = 'lag', y = 'Average_temperature', hue = "Diarrhoea_rates")
+# Regression plots
+g = sns.lmplot(x = "Total_Rainfall", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'cyan'}, data = highlands_concat_diarrhoea)
 plt.show()
 
-sns.displot(vietnam, )
+g = sns.lmplot(x = "Total_Rainfall", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'cyan'}, data = highlands_concat_diarrhoea, lowess = True)
+plt.show()
+
+# More examples to show Son
+
+g = sns.lmplot(x = "Influenza_rates", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'turquoise'}, data = highlands_concat_diarrhoea)
+g.set(xlabel = "Diarrhoea Rates", ylabel = "Influenza Rates")
+plt.suptitle("Correlation between Diarrhoea and Influenza in the Central Highlands")
+plt.show()
+
+g = sns.FacetGrid(diarrhoea_lags, col = "region", col_wrap = 4)
+g.map(sns.kdeplot, "Max_Absolute_Temperature", "Lag_1_Diarrhoea_rates", fill = True, cmap = "crest")
+g.set(xlabel = "Max Absolute Temperature (°C)", ylabel = "Diarrhoea Rates (1 mo. Lag)")
+plt.suptitle("Correlation between Temperature and Diarrhoea in Vietnam")
+plt.show()
+
+g = sns.lmplot(x = "Total_Evaporation", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'turquoise'}, data = highlands_concat_diarrhoea)
+g.set(xlabel = "Total Evaporation", ylabel = "Diarrhoea Rates")
+plt.suptitle("Correlation between Evaporation and Diarrhoea in the Central Highlands")
+plt.show()
+
+
+
+# Northwest
+northwest_lags = add_lags(north_west, "Diarrhoea_rates", 6)
+corr_matrix = northwest_lags.corr(method = "spearman")
+g = sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
+g.set(title = "Spearman Correlations in the Northwest")
+plt.show()
+
+northwest_concat_diarrhoea = concat_lags(north_west, "Diarrhoea_rates", 5)
+g = sns.FacetGrid(northwest_concat_diarrhoea, col = "Lag", col_wrap = 3)
+g.map(sns.kdeplot, "Min_Absolute_Temperature", "Diarrhoea_rates", fill = True, cmap = "crest")
+g.set(xlabel = "Min Absolute Temperature (°C)", ylabel = "Diarrhoea Rates")
+plt.suptitle("Correlation between Temperature and Diarrhoea in the Northwest")
+plt.show()
+
+g = sns.lmplot(x = "Min_Absolute_Temperature", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'turquoise'}, data = northwest_concat_diarrhoea)
+plt.show()
+
+# Single Province
+dien_bien_concat = concat_lags(vietnam.loc[vietnam["province"] == "Điện Biên"], "Diarrhoea_rates", 5)
+g = sns.lmplot(x = "n_raining_days", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'turquoise'}, data = dien_bien_concat, lowess = False)
+plt.show()
+
+list(dien_bien_concat.columns)
