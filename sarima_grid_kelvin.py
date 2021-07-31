@@ -1,4 +1,4 @@
-# grid search sarima hyperparameters for monthly mean temp dataset
+# grid search sarima hyperparameters
 from math import sqrt
 from multiprocessing import cpu_count
 from joblib import Parallel
@@ -80,8 +80,8 @@ def score_model(data, n_test, cfg, debug=False):
 def grid_search(data, cfg_list, n_test, parallel=True):
     scores = None
     if parallel:
-        # execute configs in parallel
-        executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+        # execute configs in parallel -- changed from cpu_count() to 64 for HPC use
+        executor = Parallel(n_jobs=64, backend='multiprocessing')
         tasks = (delayed(score_model)(data, n_test, cfg) for cfg in cfg_list)
         scores = executor(tasks)
     else:
@@ -99,11 +99,11 @@ def sarima_configs(seasonal=[0]):
     # define config lists
     p_params = [0, 1, 2, 3, 4, 5, 6]
     d_params = [0, 1]
-    q_params = [0, 1, 2, 3, 4, 5, 6]
+    q_params = [0, 1, 2, 3, 4]
     t_params = ['n', 'c', 't', 'ct']
     P_params = [0, 1, 2, 3, 4, 5, 6]
     D_params = [0, 1]
-    Q_params = [0, 1, 2, 3, 4, 5, 6]
+    Q_params = [0, 1, 2, 3, 4]
     m_params = seasonal
     # create config instances
     for p in p_params:
@@ -121,14 +121,11 @@ def sarima_configs(seasonal=[0]):
 
 if __name__ == '__main__':
     # load dataset
-    #dfbase = pd.read_csv("Binh_050_full.csv", parse_dates=True)
-    #dfbase = pd.read_csv("test.csv", parse_dates=True)
     vietnam = pd.read_excel("/mnt/scratch2/users/40296869/100k_anglicised.xlsx", engine = 'openpyxl')
     vietnam = vietnam.loc[vietnam['year_month'] < '2014-1-1']
     dfbase = vietnam.loc[vietnam['province'] == "Thái Bình"]
 
     # create data to fit
-    #df = dfbase[['Filled']]
     df = dfbase[['Diarrhoea_rates']]
     ddatefull = [pd.Timestamp(x) for x in list(dfbase.year_month)]
 
@@ -143,7 +140,7 @@ if __name__ == '__main__':
     # data split
     n_test = 1
     # model configs
-    cfg_list = sarima_configs(seasonal=[0, 6, 12])
+    cfg_list = sarima_configs(seasonal=[0, 12])
     # grid search
     scores = grid_search(data, cfg_list, n_test)
     # done

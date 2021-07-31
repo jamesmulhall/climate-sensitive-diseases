@@ -18,7 +18,6 @@ north_central = vietnam.loc[vietnam["province"].isin(['Thanh Hóa', 'Nghệ An',
 south_central = vietnam.loc[vietnam["province"].isin(['Đà Nẵng', 'Quảng Nam', 'Quảng Ngãi', 'Bình Định', 'Phú Yên', 'Khánh Hòa', 'Ninh Thuận', 'Bình Thuận'])]
 central_highlands = vietnam.loc[vietnam["province"].isin(['Kon Tum', 'Gia Lai', 'Đắk Lắk', 'Đắc Nông', 'Lâm Đồng'])]
 south = vietnam.loc[vietnam["province"].isin(['Cà Mau', 'Bạc Liêu', 'Kiên Giang', 'Sóc Trăng', 'Cần Thơ', 'An Giang', 'Trà Vinh', 'Đồng Tháp', 'Tiền Giang', 'Long An', 'BR Vũng Tàu', 'Tây Ninh', 'Bình Phước'])] #no Hau Giang, Vinh Long, Ben Tre, Ho Chi Minh, Dong Nai
-# Double check those
 
 # Alternatively, add subregion column to full dataset
 def label_region (row):
@@ -38,13 +37,6 @@ def label_region (row):
         return "south"
 
 vietnam["region"] = vietnam.apply(label_region, axis = 1)
-
-# Test seaborn plots for diarrhoea
-sns.relplot(x = "year_month", y = "Diarrhoea_rates", data = south.loc[south["year_month"] > "2015-01-01"]) # not sure if this has any potential...
-plt.show()
-
-sns.relplot(x = "Total_Rainfall", y = "Diarrhoea_rates", data = central_highlands)
-plt.show()
 
 # Overview of data
 g = sns.catplot(x = "region", y = "Diarrhoea_rates", data = vietnam, kind = "box")
@@ -79,6 +71,7 @@ def add_lags(df, colname, lag):
     return df_lag
 
 def concat_lags(df, colname, lag):
+    """"Adds lags by adding new rows to dataframe. 'Lag' column is added to specify number of lag months."""
     df_lag = df.copy()
     df_lag = df_lag.sort_values(["province", "year_month"]) # order by province and date to make sure shift is correct
     df_lag["Lag"] = 0
@@ -106,13 +99,7 @@ g = sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
 g.set(title = "Spearman Correlations in Vietnam")
 plt.show()
 
-# Full heatmap for central highlands
-highlands_lags = add_lags(central_highlands, "Diarrhoea_rates", 6)
-corr_matrix = highlands_lags.corr(method = "spearman")
-g = sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
-g.set(title = "Spearman Correlations in Central Highlands")
-plt.show()
-
+# Full heatmap for Thai Binh
 thai_binh_lags = add_lags(vietnam[vietnam['province'] == 'Thái Bình'], "Diarrhoea_rates", 6)
 corr_matrix = thai_binh_lags.corr(method = "spearman")
 g = sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
@@ -163,46 +150,7 @@ plt.show()
 g = sns.lmplot(x = "Total_Rainfall", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'cyan'}, data = highlands_concat_diarrhoea, lowess = True)
 plt.show()
 
-# More examples to show Son
-
-g = sns.lmplot(x = "Influenza_rates", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'turquoise'}, data = highlands_concat_diarrhoea)
-g.set(xlabel = "Diarrhoea Rates", ylabel = "Influenza Rates")
-plt.suptitle("Correlation between Diarrhoea and Influenza in the Central Highlands")
-plt.show()
-
-g = sns.FacetGrid(diarrhoea_lags, col = "region", col_wrap = 4)
-g.map(sns.kdeplot, "Max_Absolute_Temperature", "Lag_1_Diarrhoea_rates", fill = True, cmap = "crest")
-g.set(xlabel = "Max Absolute Temperature (°C)", ylabel = "Diarrhoea Rates (1 mo. Lag)")
-plt.suptitle("Correlation between Temperature and Diarrhoea in Vietnam")
-plt.show()
-
-g = sns.lmplot(x = "Total_Evaporation", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'turquoise'}, data = highlands_concat_diarrhoea)
-g.set(xlabel = "Total Evaporation", ylabel = "Diarrhoea Rates")
-plt.suptitle("Correlation between Evaporation and Diarrhoea in the Central Highlands")
-plt.show()
-
-
-
-# Northwest
-northwest_lags = add_lags(north_west, "Diarrhoea_rates", 6)
-corr_matrix = northwest_lags.corr(method = "spearman")
-g = sns.heatmap(corr_matrix, cmap="PiYG", center = 0)
-g.set(title = "Spearman Correlations in the Northwest")
-plt.show()
-
-northwest_concat_diarrhoea = concat_lags(north_west, "Diarrhoea_rates", 5)
-g = sns.FacetGrid(northwest_concat_diarrhoea, col = "Lag", col_wrap = 3)
-g.map(sns.kdeplot, "Min_Absolute_Temperature", "Diarrhoea_rates", fill = True, cmap = "crest")
-g.set(xlabel = "Min Absolute Temperature (°C)", ylabel = "Diarrhoea Rates")
-plt.suptitle("Correlation between Temperature and Diarrhoea in the Northwest")
-plt.show()
-
-g = sns.lmplot(x = "Min_Absolute_Temperature", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'turquoise'}, data = northwest_concat_diarrhoea)
-plt.show()
-
 # Single Province
 dien_bien_concat = concat_lags(vietnam.loc[vietnam["province"] == "Điện Biên"], "Diarrhoea_rates", 5)
 g = sns.lmplot(x = "n_raining_days", y = "Diarrhoea_rates", col = "Lag", col_wrap = 3, line_kws = {'color':'turquoise'}, data = dien_bien_concat, lowess = False)
 plt.show()
-
-list(dien_bien_concat.columns)

@@ -51,8 +51,7 @@ def evaluate_forecast(y, pred):
     return results
 
 ### Load the data
-#dfbase = pd.read_csv("Binh_050_full.csv", parse_dates=True)
-vietnam = pd.read_excel("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\100k_anglicised.xlsx")
+vietnam = pd.read_excel("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases\\100k_anglicised.xlsx")
 vietnam = vietnam.loc[vietnam['year_month'] < '2014-1-1']
 dfbase = vietnam.loc[vietnam['province'] == "Thái Bình"]
 
