@@ -16,3 +16,12 @@ A collection of analyses and prediction models for climate sensitive diseases in
 
 ## Diarrhoea rates by province:
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_by_province.png?raw=true)
+
+## Geospatial map of diarrhoea rates per 100k population:
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_map.png?raw=true)
+
+## SARIMA prediction
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_SARIMA.png?raw=true)
+
+## SARIMAX prediction
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_multi_SARIMAX.png?raw=true)
