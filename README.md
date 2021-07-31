@@ -13,3 +13,6 @@ A collection of analyses and prediction models for climate sensitive diseases in
  - **thai-binh-multi-sarimax.py** is a multivariate version of the SARIMA model
  - **thai_binh_jobscript.sh** schedules and allocates resources for the SARIMA gridsearch as a SLURM HPC job
  - **optuna_thai_jobscript** schedules and allocates resources for the OPTUNA hyperparameter optimisation as a SLURM HPC job
+
+## Diarrhoea rates by province:
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_by_province.png?raw=true)
