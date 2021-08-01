@@ -51,7 +51,7 @@ def evaluate_forecast(y, pred):
     return results
 
 ### Load the data
-vietnam = pd.read_excel("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases\\100k_anglicised.xlsx")
+vietnam = pd.read_excel("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases-private\\100k_anglicised.xlsx")
 vietnam = vietnam.loc[vietnam['year_month'] < '2014-1-1']
 dfbase = vietnam.loc[vietnam['province'] == "Thái Bình"]
 
@@ -165,6 +165,8 @@ pred['Diarrhoea_rates'] = predictions
 train['Diarrhoea_rates'].plot()
 test['Diarrhoea_rates'].plot()
 pred['Diarrhoea_rates'].plot()
+plt.ylabel("Diarrhoea Rates per 100k Population")
+plt.tight_layout()
 plt.show()
 
 # evaluate forecast
