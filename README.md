@@ -21,7 +21,7 @@ A collection of analyses and prediction models for climate sensitive diseases in
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_map.png?raw=true)
 
 ## LSTM-Attention prediction of diarrhoea rates in Thai Binh
-![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_lstm-att.png?raw=true)
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_lstm_att.png?raw=true)
 
 ## SARIMA prediction of diarrhoea rates in Thai Binh (including training data)
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_SARIMA.png?raw=true)
