@@ -14,14 +14,17 @@ A collection of analyses and prediction models for climate sensitive diseases in
  - **thai_binh_jobscript.sh** schedules and allocates resources for the SARIMA gridsearch as a SLURM HPC job
  - **optuna_thai_jobscript.sh** schedules and allocates resources for the OPTUNA hyperparameter optimisation as a SLURM HPC job
 
-## Diarrhoea rates by province:
+## Diarrhoea rates by province
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_by_province.png?raw=true)
 
-## Geospatial map of diarrhoea rates per 100k population:
+## Geospatial map of diarrhoea rates per 100k population
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_map.png?raw=true)
 
-## SARIMA prediction
+## LSTM-Attention prediction of diarrhoea rates in Thai Binh
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_lstm-att.png?raw=true)
+
+## SARIMA prediction of diarrhoea rates in Thai Binh (including training data)
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_SARIMA.png?raw=true)
 
-## SARIMAX prediction
+## SARIMAX prediction of diarrhoea rates in Thai Binh (including training data)
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_multi_SARIMAX.png?raw=true)
