@@ -6,13 +6,13 @@ A collection of analyses and prediction models for climate sensitive diseases in
  - Data is private
  - Pytorch code is currently private
  - OPTUNA hyperparameter optimisation for Pytorch models is currently private
- - **mapping.py** creates GeoPandas geospatial map of diarrhoea cases in Vietnam
- - **diarrhoea_plots.py** creates boxplots and heatmaps of diarrhoea rates and correlations with climate factors in Vietnam
- - **sarima-grid-kelvin.py** is a hyperparameter gridsearch for a SARIMA diarrhoea prediction model (must be run on HPC cluster)
- - **thai-binh-sarima-best.py** is for diarrhoea prediction in the Thai Binh province from the gridsearch results
- - **thai-binh-multi-sarimax.py** is a multivariate version of the SARIMA model
+ - **mapping.py** creates a GeoPandas geospatial map of diarrhoea rates
+ - **diarrhoea_plots.py** creates boxplots and heatmaps of diarrhoea rates and correlations with climate factors
+ - **sarima_grid_kelvin.py** is a hyperparameter gridsearch for a SARIMA diarrhoea prediction model (must be run on HPC cluster)
+ - **thai_binh_sarima_best.py** is for diarrhoea prediction in the Thai Binh province using hyperparameters obtained from the gridsearch
+ - **thai_binh_multi_sarimax.py** is a multivariate version of the SARIMA model
  - **thai_binh_jobscript.sh** schedules and allocates resources for the SARIMA gridsearch as a SLURM HPC job
- - **optuna_thai_jobscript** schedules and allocates resources for the OPTUNA hyperparameter optimisation as a SLURM HPC job
+ - **optuna_thai_jobscript.sh** schedules and allocates resources for the OPTUNA hyperparameter optimisation as a SLURM HPC job
 
 ## Diarrhoea rates by province:
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_by_province.png?raw=true)
