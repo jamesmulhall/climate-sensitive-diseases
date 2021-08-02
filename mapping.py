@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import contextily as ctx
 
 # Read in json of Vietnam and climate/disease data
-geo_data = gp.read_file("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases\\vietnam.json")
-climate_data = pd.read_excel("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases\\Final_full_cleaned_dataset.xlsx")
+geo_data = gp.read_file("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases-private\\vietnam.json")
+climate_data = pd.read_excel("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases-private\\Final_full_cleaned_dataset.xlsx")
 
 # Rename so both dataframes have a province column to merge on
 geo_data = geo_data.rename(columns={'name':'province'})
@@ -43,6 +43,7 @@ fig, ax = plt.subplots()
 fig = full_data.plot(column='mean_diarrhoea_rates', 
                      cmap='OrRd', 
                      legend=True, 
+                     legend_kwds={'label': 'Mean Monthly Diarrhoea Rates per 100k Population'},
                      missing_kwds={"color": "whitesmoke", 
                                    "facecolor": "none", 
                                    "edgecolor": "gainsboro",
