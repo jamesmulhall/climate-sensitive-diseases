@@ -3,8 +3,12 @@ import warnings
 import itertools
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 warnings.filterwarnings("ignore")
-plt.style.use('fivethirtyeight')
+plt.style.use('seaborn-darkgrid')
+plt.rcParams['figure.figsize'] = [8.0, 4.0]
+plt.rcParams['font.size'] = 10
+sns.set_style("darkgrid")
 
 import pandas as pd
 pd.set_option('display.expand_frame_repr', False)
@@ -162,10 +166,11 @@ pred = df[(numdata - numtest + nstep - 1):].copy()
 pred['Diarrhoea_rates'] = predictions
 
 # plot the data
-train['Diarrhoea_rates'].plot()
-test['Diarrhoea_rates'].plot()
-pred['Diarrhoea_rates'].plot()
+train['Diarrhoea_rates'].plot(label='Train', color='tab:green')
+test['Diarrhoea_rates'].plot(label='Test', color='tab:blue')
+pred['Diarrhoea_rates'].plot(label='Predicted', color='tab:orange')
 plt.ylabel("Diarrhoea Rates per 100k Population")
+plt.legend()
 plt.tight_layout()
 plt.show()
 

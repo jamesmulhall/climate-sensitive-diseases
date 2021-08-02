@@ -3,8 +3,12 @@ import warnings
 import itertools
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 warnings.filterwarnings("ignore")
-plt.style.use('fivethirtyeight')
+plt.style.use('seaborn-darkgrid')
+plt.rcParams['figure.figsize'] = [8.0, 4.0]
+plt.rcParams['font.size'] = 10
+sns.set_style("darkgrid")
 
 import pandas as pd
 pd.set_option('display.expand_frame_repr', False)
@@ -27,7 +31,6 @@ matplotlib.rcParams['axes.labelsize'] = 14
 matplotlib.rcParams['xtick.labelsize'] = 12
 matplotlib.rcParams['ytick.labelsize'] = 12
 matplotlib.rcParams['text.color'] = 'k'
-import seaborn as sns
 
 from random import random
 
@@ -53,7 +56,7 @@ def evaluate_forecast(y, pred):
 
 ### Load the data
 #dfbase = pd.read_csv("Binh_050_full.csv", parse_dates=True)
-vietnam = pd.read_excel("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\100k_anglicised.xlsx")
+vietnam = pd.read_excel("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases-private\\100k_anglicised.xlsx")
 vietnam = vietnam.loc[vietnam['year_month'] < '2014-1-1']
 dfbase = vietnam.loc[vietnam['province'] == "Thái Bình"]
 
@@ -179,11 +182,18 @@ print("Prediction: ", predictions)
 predorg = y[(numdata - numtest + nstep - 1):].copy() # changed df to y
 pred = y[(numdata - numtest + nstep - 1):].copy()
 pred['Diarrhoea_rates'] = predictions
+#pred.index = pd.to_datetime(pred.index)
 
-# plot the data
-train_y['Diarrhoea_rates'].plot()
-test_y['Diarrhoea_rates'].plot()
-pred['Diarrhoea_rates'].plot()
+
+# plot the data 
+plt.rcParams['figure.facecolor'] = '#00000000'
+train_y['Diarrhoea_rates'].plot(label='Train', color='tab:green')
+test_y['Diarrhoea_rates'].plot(label='Test', color='tab:blue')
+pred['Diarrhoea_rates'].plot(label='Predicted', color='tab:orange')
+plt.ylabel("Scaled Diarrhoea Rates per 100k Population")
+plt.xlabel("Months")
+plt.legend()
+plt.tight_layout()
 plt.show()
 
 # evaluate forecast
@@ -193,4 +203,31 @@ results = evaluate_forecast(predorg, pred)
 print(results)
 
 print("End prediction")
+
+# plot the data scaled
+
+# test_y = sc_out.inverse_transform(test_y[['Diarrhoea_rates']])
+# train_y = sc_out.inverse_transform(train_y[['Diarrhoea_rates']])
+# pred = sc_out.inverse_transform(pred[['Diarrhoea_rates']])
+
+# plot_list_test = [x for x in test_y]
+# plot_list_train = [x for x in train_y]
+
+
+# df_plot = pd.DataFrame()
+# df_plot['Date'] = ddatefull[:(numdata - numtest)]
+# df_plot = df.set_index("Date")
+# df_plot['Train'] = plot_list_train
+# df_plot['Train'] = train_y.tolist()
+
+
+# plt.rcParams['figure.facecolor'] = '#00000000'
+# train_y['Diarrhoea_rates'].plot(label='Train', color='tab:green')
+# test_y['Diarrhoea_rates'].plot(label='Test', color='tab:blue')
+# pred['Diarrhoea_rates'].plot(label='Predicted', color='tab:orange')
+# plt.ylabel("Diarrhoea Rates per 100k Population")
+# plt.xlabel("Date")
+# plt.legend()
+# plt.tight_layout()
+# plt.show()
 
