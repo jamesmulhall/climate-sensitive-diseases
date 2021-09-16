@@ -2,19 +2,21 @@
 
 A collection of analyses and prediction models for two climate sensitive diseases in Vietnam — dengue fever (DF) and diarrhoea.
 <br />
+<br />
 
 ## Overview:
  - Traditional machine learning and deep learning models for disease forecasting
  - Boxplots, barplots, and geospatial maps to visualise the relationships between climate factors, regions, and disease rates
  - Tree-structured Parzen Estimator (TPE) hyperparameter optimisation implemented through [Optuna](https://github.com/optuna/optuna)
- - Summary statistics, Kruskal-wallis tests, and posthoc Dunn's tests used to investigate differences in climate between regions
+ - Summary statistics, Kruskal-wallis tests, and post hoc Dunn's tests used to investigate differences in climate between regions
+ - Google Colab is required for the Google Drive integration in .ipynb files
  - [Data availability statement](#data-availability-statement)
 <br />
 
 ## Description of files
 | Folder                     | File                          | Description                                                        |
-| -------------------------- | ----------------------------- | ------------------------------------------------------------------ |
-| **figures**                | `[All]`                       | Examples figures                                                   |
+| :------------------------- | :---------------------------- | :----------------------------------------------------------------- |
+| **figures**                | `[All]`                       | Example figures                                                    |
 | **data**                   | `population_data.xlsx`        | Populations per province from 1997–2016                            |
 | **data**                   | `vietnam.json`                | Vietnam province shapes for geospatial mapping                     |
 | **data_processing**        | `calculate_rates.py`          | Calculate disease incidence rates                                  |
@@ -27,7 +29,7 @@ A collection of analyses and prediction models for two climate sensitive disease
 | **optimisation**           | `sarima_grid_kelvin.py`       | SARIMA hyperparameter grid search                                  |
 | **optimisation**           | `thai_binh_jobscript.sh`      | SLURM HPC jobscript for sarima_grid_kelvin.py                      |
 | **optimisation**           | `optuna_thai_jobscript.sh`    | SLURM HPC jobscript for optuna_sarima.py                           |
-| **plotting**               | `diarrhoea_plots.py`          | Boxplots and heatmaps of diarrhoea/DF rates & climate-correlations |
+| **plotting**               | `disease_plots.py`            | Boxplots and heatmaps of diarrhoea/DF rates & climate-correlations |
 | **plotting**               | `lstm-att_outbreaks.ipynb`    | Plots figures for outbreak detection metrics                       |
 | **plotting**               | `mapping.py`                  | Creates GeoPandas geospatial maps of disease rates                 |
 | **plotting**               | `multi_month_plot.ipynb`      | Plots multi-month predictions                                      |
@@ -37,27 +39,33 @@ A collection of analyses and prediction models for two climate sensitive disease
 <br />
 
 ## Dengue Fever rates by province
-![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_by_province.png?raw=true)
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/df_rates_by_province.png?raw=true)
+<br />
 <br />
 
 ## Diarrhoea rates by province
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_by_province.png?raw=true)
 <br />
+<br />
 
-## Geospatial map of diarrhoea rates per 100k population
+## Geospatial map of disease rates per 100k population
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/disease_maps.svg?raw=true)
+<br />
 <br />
 
 ## SARIMA(X) diarrhoea predictions
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/sarimax_diarrhoea_pred.png?raw=true)
 <br />
+<br />
 
 ## Deep learning diarrhoea predictions
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/pytorch_diarrhoea_pred.png?raw=true)
 <br />
+<br />
 
 ## LSTM-ATT multi-month ahead predictions
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/multi-month_lstm-att.png?raw=true)
+<br />
 <br />
 
 ## Data Availability Statement
