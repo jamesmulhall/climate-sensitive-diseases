@@ -68,5 +68,5 @@ A collection of analyses and prediction models for two climate sensitive disease
 <br />
 <br />
 
-## Data Availability Statement
+## Data availability statement
 The population data used to calculate disease incidence rates per province per year are publicly available from the General Statistics Office of Vietnam [here](https://www.gso.gov.vn/en/population/). The climate and disease data were obtained for a fee from the Vietnam Institute of Meteorology, Hydrology and Climate Change (IMHEN) and the Vietnam National Institute of Hygiene and Epidemiology (NIHE), respectively. Restrictions apply to the availability of the data, which is available from the author with the permission of the respective institutions. Alternatively, data can be requested directly from IMHEN and NIHE.
