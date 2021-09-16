@@ -63,7 +63,7 @@ A collection of analyses and prediction models for two climate sensitive disease
 <br />
 <br />
 
-## LSTM-ATT multi-month ahead predictions
+## LSTM-ATT multi-month ahead predictions for diarrhoea
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/multi-month_lstm-att.png?raw=true)
 <br />
 <br />
