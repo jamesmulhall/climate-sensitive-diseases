@@ -7,7 +7,7 @@ A collection of analyses and prediction models for two climate sensitive disease
  - Boxplots, barplots, and geospatial maps to visualise the relationships between climate factors, regions, and disease rates
  - Tree-structured Parzen Estimator (TPE) hyperparameter optimisation implemented through [Optuna](https://github.com/optuna/optuna)
  - Summary statistics, Kruskal-wallis tests, and posthoc Dunn's tests used to investigate differences in climate between regions
- - [Data availability statement](##data-availability-statement)
+ - [Data availability statement](#data-availability-statement)
 
 
 | Folder                     | File                          | Description                                                        |
