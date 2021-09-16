@@ -1,8 +1,43 @@
 # climate-sensitive-diseases
 
-A collection of analyses and prediction models for climate sensitive diseases in Vietnam. This repo is a public version of a larger private repo, as there are restrictions in place for the private data being used.
+A collection of analyses and prediction models for two climate sensitive diseases in Vietnam — dengue fever (DF) and diarrhoea.
 
 ## Overview:
+ - Traditional machine learning and deep learning models for disease forecasting
+ - Boxplots, barplots, and geospatial maps to visualise the relationships between climate factors, regions, and disease rates
+ - Tree-structured Parzen Estimator (TPE) hyperparameter optimisation implemented through [Optuna](https://github.com/optuna/optuna)
+ - Summary statistics, Kruskal-wallis tests, and posthoc Dunn's tests used to investigate differences in climate between regions
+ - [Data availability statement](##data-availability-statement)
+
+
+| Folder                     | File                          | Description                                                        |
+| -------------------------- | ----------------------------- | ------------------------------------------------------------------ |
+| **figures**                | `[All]`                       | Examples figures                                                   |
+| **data**                   | `population_data.xlsx`        | Populations per province from 1997–2016                            |
+| **data**                   | `vietnam.json`                | Vietnam province shapes for geospatial mapping                     |
+| **data_processing**        | `calculate_rates.py`          | Calculate disease incidence rates                                  |
+| **data_processing**        | `data_stats.py`               | Summary stats and statistical tests                                |
+| **data_processing**        | `data_test_stationary.py`     | Dickey-fuller test, decomposition, ACF/PACF                        |
+| **optimisation**           | `optuna_cnn.ipynb`            | TPE optimisation of CNNs                                           |
+| **optimisation**           | `optuna_lstm.ipynb`           | TPE optimisation of LSTM and LSTM-ATT models                       |
+| **optimisation**           | `optuna_sarima.py`            | TPE optimisation of SARIMA models                                  | 
+| **optimisation**           | `optuna_thai_jobscript.sh`    | SLURM HPC jobscript for optuna_sarima.py                           |
+| **optimisation**           | `sarima_grid_kelvin.py`       | SARIMA hyperparameter grid search                                  |
+| **optimisation**           | `thai_binh_jobscript.sh`      | SLURM HPC jobscript for sarima_grid_kelvin.py                      |
+| **optimisation**           | `optuna_thai_jobscript.sh`    | SLURM HPC jobscript for optuna_sarima.py                           |
+| **plotting**               | `diarrhoea_plots.py`          | Boxplots and heatmaps of diarrhoea/DF rates & climate-correlations |
+| **plotting**               | `lstm-att_outbreaks.ipynb`    | Plots figures for outbreak detection metrics                       |
+| **plotting**               | `mapping.py`                  | Creates GeoPandas geospatial maps of disease rates                 |
+| **plotting**               | `multi_month_plot.ipynb`      | Plots multi-month predictions                                      |
+| **prediction_models**      | `pytorch_dengue_fever.ipynb`  | Pytorch LSTM, LSTM-ATT, and CNN models for DF predictions          |
+| **prediction_models**      | `pytorch_diarrhoea.ipynb`     | Pytorch LSTM, LSTM-ATT, and CNN models for diarrhoea predictions   |
+| **prediction_models**      | `sarima(x).ipynb`             | SARIMA and SARIMAX models for disease forecasting                  |
+
+
+
+
+
+
  - Data is private
  - Pytorch code is currently private
  - OPTUNA hyperparameter optimisation for Pytorch models is currently private
@@ -38,3 +73,6 @@ A collection of analyses and prediction models for climate sensitive diseases in
 ## SARIMAX prediction of diarrhoea rates in Thai Binh (including training data)
 ![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_multi_SARIMAX.png?raw=true)
  - MAPE: 9.71%
+
+## Data Availability Statement
+
