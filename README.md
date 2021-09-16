@@ -1,6 +1,7 @@
 # climate-sensitive-diseases
 
 A collection of analyses and prediction models for two climate sensitive diseases in Vietnam — dengue fever (DF) and diarrhoea.
+<br />
 
 ## Overview:
  - Traditional machine learning and deep learning models for disease forecasting
@@ -8,8 +9,9 @@ A collection of analyses and prediction models for two climate sensitive disease
  - Tree-structured Parzen Estimator (TPE) hyperparameter optimisation implemented through [Optuna](https://github.com/optuna/optuna)
  - Summary statistics, Kruskal-wallis tests, and posthoc Dunn's tests used to investigate differences in climate between regions
  - [Data availability statement](#data-availability-statement)
+<br />
 
-
+## Description of files
 | Folder                     | File                          | Description                                                        |
 | -------------------------- | ----------------------------- | ------------------------------------------------------------------ |
 | **figures**                | `[All]`                       | Examples figures                                                   |
@@ -32,22 +34,10 @@ A collection of analyses and prediction models for two climate sensitive disease
 | **prediction_models**      | `pytorch_dengue_fever.ipynb`  | Pytorch LSTM, LSTM-ATT, and CNN models for DF predictions          |
 | **prediction_models**      | `pytorch_diarrhoea.ipynb`     | Pytorch LSTM, LSTM-ATT, and CNN models for diarrhoea predictions   |
 | **prediction_models**      | `sarima(x).ipynb`             | SARIMA and SARIMAX models for disease forecasting                  |
+<br />
 
-
-
-
-
-
- - Data is private
- - Pytorch code is currently private
- - OPTUNA hyperparameter optimisation for Pytorch models is currently private
- - **mapping.py** creates a GeoPandas geospatial map of diarrhoea rates
- - **diarrhoea_plots.py** creates boxplots and heatmaps of diarrhoea rates and correlations with climate factors
- - **sarima_grid_kelvin.py** is a hyperparameter gridsearch for a SARIMA diarrhoea prediction model (must be run on HPC cluster)
- - **thai_binh_sarima_best.py** is for diarrhoea prediction in the Thai Binh province using hyperparameters obtained from the gridsearch
- - **thai_binh_multi_sarimax.py** is a multivariate version of the SARIMA model
- - **thai_binh_jobscript.sh** schedules and allocates resources for the SARIMA gridsearch as a SLURM HPC job
- - **optuna_thai_jobscript.sh** schedules and allocates resources for the OPTUNA hyperparameter optimisation as a SLURM HPC job
+## Dengue Fever rates by province
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_by_province.png?raw=true)
 <br />
 
 ## Diarrhoea rates by province
@@ -55,24 +45,20 @@ A collection of analyses and prediction models for two climate sensitive disease
 <br />
 
 ## Geospatial map of diarrhoea rates per 100k population
-![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/diarrhoea_rates_map.png?raw=true)
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/disease_maps.svg?raw=true)
 <br />
 
-## LSTM-Attention prediction of diarrhoea rates in Thai Binh
-![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_lstm_att.png?raw=true)
- - MAPE: 3.65%
- - RMSE: 16.78
+## SARIMA(X) diarrhoea predictions
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/sarimax_diarrhoea_pred.png?raw=true)
 <br />
 
-## SARIMA prediction of diarrhoea rates in Thai Binh (including training data)
-![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_SARIMA.png?raw=true)
- - MAPE: 11.16%
- - RMSE: 53.13
+## Deep learning diarrhoea predictions
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/pytorch_diarrhoea_pred.png?raw=true)
 <br />
 
-## SARIMAX prediction of diarrhoea rates in Thai Binh (including training data)
-![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/thai_binh_multi_SARIMAX.png?raw=true)
- - MAPE: 9.71%
+## LSTM-ATT multi-month ahead predictions
+![alt text](https://github.com/mullach/climate-sensitive-diseases/blob/main/Figures/multi-month_lstm-att.png?raw=true)
+<br />
 
 ## Data Availability Statement
-
+The population data used to calculate disease incidence rates per province per year are publicly available from the General Statistics Office of Vietnam [here](https://www.gso.gov.vn/en/population/). The climate and disease data were obtained for a fee from the Vietnam Institute of Meteorology, Hydrology and Climate Change (IMHEN) and the Vietnam National Institute of Hygiene and Epidemiology (NIHE), respectively. Restrictions apply to the availability of the data, which is available from the author with the permission of the respective institutions. Alternatively, data can be requested directly from IMHEN and NIHE.
