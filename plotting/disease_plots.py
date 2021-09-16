@@ -56,7 +56,7 @@ g = sns.catplot(x = "province", y = "Dengue_fever_rates", data = vietnam.dropna(
 g.set(xlabel = "Province", ylabel = "Monthly Symlog Dengue Fever Rates per 100k Population", yscale='symlog', ylim=(-0.15, 100))
 plt.xticks(rotation=90)
 plt.tight_layout()
-#plt.savefig("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\Figures\\diarrhoea_rates.svg")
+# plt.savefig("C:\\Users\\james\\OneDrive\\Documents\\Vietnam_Project\\climate-sensitive-diseases-public\\figures\\df_rates_by_province.png")
 plt.show()
 
 # Plot diarrhoea rates per province (log scale)
