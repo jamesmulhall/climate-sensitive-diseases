@@ -33,9 +33,13 @@ A collection of analyses and prediction models for two climate sensitive disease
 | **plotting**               | `lstm-att_outbreaks.ipynb`    | Plots figures for outbreak detection metrics                       |
 | **plotting**               | `mapping.py`                  | Creates GeoPandas geospatial maps of disease rates                 |
 | **plotting**               | `multi_month_plot.ipynb`      | Plots multi-month predictions                                      |
+| **prediction_models**      | `poisson_df.py`               | Poisson regression model for DF predictions                        |
 | **prediction_models**      | `pytorch_dengue_fever.ipynb`  | Pytorch LSTM, LSTM-ATT, and CNN models for DF predictions          |
 | **prediction_models**      | `pytorch_diarrhoea.ipynb`     | Pytorch LSTM, LSTM-ATT, and CNN models for diarrhoea predictions   |
 | **prediction_models**      | `sarima(x).ipynb`             | SARIMA and SARIMAX models for disease forecasting                  |
+| **prediction_models**      | `svr_df.py`                   | Support Vector Regression models for DF predictions                |
+| **prediction_models**      | `xgboost_df.py`               | XGBoost model for DF predictions                                   |
+
 <br />
 
 ## Dengue Fever rates by province
