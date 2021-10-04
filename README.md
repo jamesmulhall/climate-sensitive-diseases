@@ -1,6 +1,11 @@
 # climate-sensitive-diseases
 
-A collection of analyses and prediction models for two climate sensitive diseases in Vietnam — dengue fever (DF) and diarrhoea.
+A collection of analyses and prediction models for two climate sensitive diseases in Vietnam — dengue fever (DF) and diarrhoea. 
+
+This project is a collaboration between researchers from Queen's University Belfast; Hungyen University of Technology and Education; Hanoi University of Public Health; Hanoi University of Science and Technology; Bac Ha International University; University of Connecticut; Vietnam Institute of Meteorology, Hydrology and Climate Change; Griffith University, Bribane; National Institute of Hygiene and Epidemiology; Ho Chi Minh City University of Transportation; and University of Science, Ho Chi Minh. The work on dengue fever is under review for publication in the article titled below:
+
+>*Van Hau Nguyen, Tran Thi Tuyet Hanh, Van Chien Nguyen, James Mulhall, Hoang Van Minh, Trung Q. Duong, Nguyen Thi Trang Nhung, Vu Hoang Lan, Hoang Ba Minh, Do Cuong, Nguyen Ngoc Bich, Nguyen Huu Quyen, Tran Nu Quy Linh, Nguyen Thi Tho, Ngu Duy Nghia, Le Van Quoc Anh, Diep Phan, Quoc Viet Hung Nguyen, Son T. Mai. Deep learning models for forecasting dengue fever based on climate data in Vietnam. Under Review.*
+
 <br />
 <br />
 
