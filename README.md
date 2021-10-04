@@ -38,6 +38,7 @@ This project is a collaboration between researchers from Queen's University Belf
 | **plotting**               | `lstm-att_outbreaks.ipynb`    | Plots figures for outbreak detection metrics                       |
 | **plotting**               | `mapping.py`                  | Creates GeoPandas geospatial maps of disease rates                 |
 | **plotting**               | `multi_month_plot.ipynb`      | Plots multi-month predictions                                      |
+| **plotting**               | `ranking.py`                  | Generates boxplots of mean model rankings                          |
 | **prediction_models**      | `poisson_df.py`               | Poisson regression model for DF predictions                        |
 | **prediction_models**      | `pytorch_dengue_fever.ipynb`  | Pytorch LSTM, LSTM-ATT, and CNN models for DF predictions          |
 | **prediction_models**      | `pytorch_diarrhoea.ipynb`     | Pytorch LSTM, LSTM-ATT, and CNN models for diarrhoea predictions   |
